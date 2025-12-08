@@ -12,26 +12,18 @@ const GetStarted: React.FC = () => {
   const [privacyVisible, setPrivacyVisible] = useState(false);
   const [termsVisible, setTermsVisible] = useState(false);
 
-  const handleSignIn = () => {
-    router.push("/(auth)/sign-in");
-  };
-  const handleSignUp = () => {
-    router.push("/(auth)/sign-up");
-  };
-
   return (
-    <View className="flex-1 bg-white relative justify-center items-center px-6">
-      {/* Logo */}
-      <View className="mt-32 mb-6">
+    <View className="w-full h-full bg-white px-6 pt-24 pb-12 justify-start relative items-center">
+      {/* Top Section */}
+      <View className="items-center">
+        {/* Logo */}
         <Image
           source={require("@/assets/icons/icon.png")}
           resizeMode="cover"
-          className="w-48 h-48 rounded-2xl"
+          className="w-40 h-40 rounded-2xl mb-8"
         />
-      </View>
 
-      {/* Heading */}
-      <View className="items-center mb-12">
+        {/* Heading */}
         <Text className="text-3xl font-Poppins_Bold text-center">
           Let&apos;s Get Started!
         </Text>
@@ -41,7 +33,7 @@ const GetStarted: React.FC = () => {
       </View>
 
       {/* Buttons */}
-      <View className="flex-1 flex-col gap-4">
+      <View className="gap-4 mt-10 w-full flex flex-col items-center">
         <AuthButton
           title="Continue with Google"
           icon={require("@/assets/icons/google.png")}
@@ -63,14 +55,14 @@ const GetStarted: React.FC = () => {
         />
 
         {/* Sign In / Create Account */}
-        <View className="mt-6 flex-col items-center gap-4">
-          <TouchableOpacity activeOpacity={0.7} onPress={handleSignIn}>
+        <View className="mt-4 flex-col items-center gap-3">
+          <TouchableOpacity activeOpacity={0.7} onPress={() => router.push("/(auth)/sign-in")}>
             <Text className="text-center font-Poppins_Regular text-base">
               Sign In
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.7} onPress={handleSignUp}>
+          <TouchableOpacity activeOpacity={0.7} onPress={() => router.push("/(auth)/sign-up")}>
             <Text className="text-center font-Poppins_Regular text-base">
               Create Account
             </Text>
@@ -79,20 +71,14 @@ const GetStarted: React.FC = () => {
       </View>
 
       {/* Footer */}
-      <View className="absolute bottom-6 flex-row justify-center gap-6">
-        <TouchableOpacity
-          onPress={() => setPrivacyVisible(true)}
-          activeOpacity={0.7}
-        >
+      <View className="flex-row justify-center items-center gap-6 mt-12 absolute bottom-6">
+        <TouchableOpacity onPress={() => setPrivacyVisible(true)}>
           <Text className="text-sm font-Poppins_ExtraLight text-gray-400">
             Privacy Policy
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => setTermsVisible(true)}
-          activeOpacity={0.7}
-        >
+        <TouchableOpacity onPress={() => setTermsVisible(true)}>
           <Text className="text-sm font-Poppins_ExtraLight text-gray-400">
             Terms of Service
           </Text>

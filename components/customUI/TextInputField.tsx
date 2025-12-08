@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Text,
+  TextInput,
+  TextInputProps,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -9,7 +15,7 @@ import Animated, {
 import Icon from "./IconNode";
 
 // ---------------- TextInputField ----------------
-interface TextInputFieldProps {
+interface TextInputFieldProps extends TextInputProps {
   placeholder: string;
   value: string;
   onChangeText: (text: string) => void;
@@ -26,7 +32,8 @@ const TextInputField: React.FC<TextInputFieldProps> = ({
   secure = false,
   error,
   iconName,
-  loading
+  loading,
+  ...rest
 }) => {
   const [isVisible, setIsVisible] = useState(!secure);
   const shakeAnim = useSharedValue(0);
@@ -63,9 +70,8 @@ const TextInputField: React.FC<TextInputFieldProps> = ({
           value={value}
           onChangeText={onChangeText}
           secureTextEntry={!isVisible}
-          autoCapitalize="none"
-          autoCorrect={false}
           editable={!loading}
+          {...rest}
         />
         {secure && (
           <TouchableOpacity onPress={() => setIsVisible(!isVisible)}>

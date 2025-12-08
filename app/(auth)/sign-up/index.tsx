@@ -38,13 +38,16 @@ const SignUpScreen: React.FC = () => {
 
     if (!hasError) {
       setLoading(true);
-      setTimeout(() => setLoading(false), 2000);
+      setTimeout(() => {
+        setLoading(false);
+        router.push("/verification");
+      }, 2000);
     }
   };
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-white px-6 justify-center"
+      className="flex-1 bg-white px-6 pt-36"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       {/* Back Button */}
@@ -109,7 +112,7 @@ const SignUpScreen: React.FC = () => {
       >
         {loading && <ActivityIndicator color="#fff" className="mr-2" />}
         <Text className="text-white font-Poppins_SemiBold text-base">
-          {loading ? "Signing In..." : "Sign In"}
+          {loading ? "Signing Up..." : "Sign Up"}
         </Text>
       </TouchableOpacity>
 
@@ -147,7 +150,7 @@ const SignUpScreen: React.FC = () => {
         <Text className="text-gray-500 font-Poppins_Regular mr-1">
           Already have an account?
         </Text>
-        <TouchableOpacity onPress={() => router.push("/(auth)/sign-in")}>
+        <TouchableOpacity onPress={() => router.push("/sign-in")}>
           <Text className="font-Poppins_SemiBold text-black">Sign In</Text>
         </TouchableOpacity>
       </View>

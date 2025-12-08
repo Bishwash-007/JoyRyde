@@ -40,13 +40,16 @@ const SignInScreen: React.FC = () => {
 
     if (!hasError) {
       setLoading(true);
-      setTimeout(() => setLoading(false), 2000);
+      setTimeout(() => {
+        setLoading(false);
+        router.push("/home");
+      }, 2000);
     }
   };
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-white px-6 justify-center"
+      className="flex-1 bg-white px-6 pt-36"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       {/* Back Button */}
@@ -89,6 +92,15 @@ const SignInScreen: React.FC = () => {
         iconName="Lock"
         loading={loading}
       />
+
+      {/* Sign Up Prompt */}
+      <View className="flex-row justify-end">
+        <TouchableOpacity onPress={() => router.push("/forgot-password")}>
+          <Text className="font-Poppins_Regular text-gray-600">
+            Forgot Password ?
+          </Text>
+        </TouchableOpacity>
+      </View>
 
       {/* Remember Me */}
       <View className="flex-row items-center mb-6">
@@ -153,7 +165,7 @@ const SignInScreen: React.FC = () => {
         <Text className="text-gray-500 font-Poppins_Regular mr-1">
           Don&apos;t have an account?
         </Text>
-        <TouchableOpacity onPress={() => router.push("/(auth)/sign-up")}>
+        <TouchableOpacity onPress={() => router.push("/sign-up")}>
           <Text className="font-Poppins_SemiBold text-black">Sign Up</Text>
         </TouchableOpacity>
       </View>

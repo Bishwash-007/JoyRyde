@@ -71,7 +71,7 @@ const OnboardingScreen = () => {
   const isLastSlide = currentIndex === data.length - 1;
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-white px-6 pt-36">
       <FlatList
         ref={flatListRef}
         data={data}
