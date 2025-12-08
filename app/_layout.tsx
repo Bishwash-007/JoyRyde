@@ -1,24 +1,49 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+import { Stack } from "expo-router";
+import {
+  useFonts as usePoppins,
+  Poppins_400Regular,
+  Poppins_700Bold,
+  Poppins_100Thin,
+  Poppins_600SemiBold,
+  Poppins_200ExtraLight,
+} from "@expo-google-fonts/poppins";
+import {
+  useFonts as useRoboto,
+  Roboto_400Regular,
+  Roboto_700Bold,
+  Roboto_600SemiBold,
+  Roboto_200ExtraLight,
+  Roboto_100Thin,
+} from "@expo-google-fonts/roboto";
+import "../global.css";
+import { StatusBar, View } from "react-native";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const [poppinsLoaded] = usePoppins({
+    Poppins_700Bold,
+    Poppins_600SemiBold,
+    Poppins_400Regular,
+    Poppins_200ExtraLight,
+    Poppins_100Thin,
+  });
+  const [robotoLoaded] = useRoboto({
+    Roboto_700Bold,
+    Roboto_600SemiBold,
+    Roboto_400Regular,
+    Roboto_200ExtraLight,
+    Roboto_100Thin,
+  });
+
+  if (!poppinsLoaded || !robotoLoaded) return;
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <View className="flex-1">
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+      />
+      <StatusBar barStyle={"dark-content"} />
+    </View>
   );
 }
