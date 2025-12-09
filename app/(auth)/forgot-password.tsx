@@ -34,7 +34,7 @@ const ForgotPasswordScreen: React.FC = () => {
       setTimeout(() => {
         setLoading(false);
         router.push({
-          pathname: "/verification",
+          pathname: "/code",
           params: { email },
         });
       }, 2000);

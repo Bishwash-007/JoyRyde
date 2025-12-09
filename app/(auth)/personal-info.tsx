@@ -69,7 +69,7 @@ const PersonalDetails: React.FC = () => {
           address,
           email: safeEmail,
         });
-        router.push("/set-password");
+        router.push("/home");
       }, 2000);
     }
   };
@@ -103,40 +103,55 @@ const PersonalDetails: React.FC = () => {
             </TouchableOpacity>
 
             {/* Full Name */}
-            <TextInputField
-              placeholder="Full Name"
-              value={fullName}
-              onChangeText={(text) => {
-                setFullName(text);
-                if (errors.fullName)
-                  setErrors((prev) => ({ ...prev, fullName: "" }));
-              }}
-              error={errors.fullName}
-              iconName="User"
-            />
+            <View>
+              <Text className="text-gray-600 font-Poppins_Regular mb-2">
+                Full Name
+              </Text>
+              <TextInputField
+                placeholder="Full Name"
+                value={fullName}
+                onChangeText={(text) => {
+                  setFullName(text);
+                  if (errors.fullName)
+                    setErrors((prev) => ({ ...prev, fullName: "" }));
+                }}
+                error={errors.fullName}
+                iconName="User"
+              />
+            </View>
 
             {/* Email (disabled) */}
-            <TextInputField
-              placeholder="Email"
-              value={safeEmail}
-              onChangeText={() => {}}
-              editable={false}
-              iconName="Mail"
-            />
+            <View>
+              <Text className="text-gray-600 font-Poppins_Regular mb-2">
+                Email
+              </Text>
+              <TextInputField
+                placeholder="Email"
+                value={safeEmail}
+                onChangeText={() => {}}
+                editable={false}
+                iconName="Mail"
+              />
+            </View>
 
             {/* Phone Number */}
-            <TextInputField
-              placeholder="Phone Number"
-              value={phoneNumber}
-              onChangeText={(text) => {
-                setPhoneNumber(text);
-                if (errors.phoneNumber)
-                  setErrors((prev) => ({ ...prev, phoneNumber: "" }));
-              }}
-              error={errors.phoneNumber}
-              iconName="Flag"
-              keyboardType="phone-pad"
-            />
+            <View>
+              <Text className="text-gray-600 font-Poppins_Regular mb-2">
+                Phone Number
+              </Text>
+              <TextInputField
+                placeholder="Phone Number"
+                value={phoneNumber}
+                onChangeText={(text) => {
+                  setPhoneNumber(text);
+                  if (errors.phoneNumber)
+                    setErrors((prev) => ({ ...prev, phoneNumber: "" }));
+                }}
+                error={errors.phoneNumber}
+                iconName="Flag"
+                keyboardType="phone-pad"
+              />
+            </View>
 
             {/* Date of Birth */}
             <View className="mb-4">
@@ -177,18 +192,24 @@ const PersonalDetails: React.FC = () => {
             </View>
 
             {/* Address */}
-            <TextInputField
-              placeholder="Address"
-              value={address}
-              onChangeText={(text) => {
-                setAddress(text);
-                if (errors.address)
-                  setErrors((prev) => ({ ...prev, address: "" }));
-              }}
-              error={errors.address}
-              multiline
-              numberOfLines={3}
-            />
+
+            <View>
+              <Text className="text-gray-600 font-Poppins_Regular mb-2">
+                Address
+              </Text>
+              <TextInputField
+                placeholder="Address"
+                value={address}
+                onChangeText={(text) => {
+                  setAddress(text);
+                  if (errors.address)
+                    setErrors((prev) => ({ ...prev, address: "" }));
+                }}
+                error={errors.address}
+                multiline
+                numberOfLines={3}
+              />
+            </View>
 
             {/* Save Button */}
             <TouchableOpacity
@@ -205,8 +226,9 @@ const PersonalDetails: React.FC = () => {
             </TouchableOpacity>
           </View>
         }
+        className="flex-1"
         renderItem={null}
-        keyboardShouldPersistTaps="handled"
+        keyboardShouldPersistTaps="always"
         showsVerticalScrollIndicator={false}
       />
     </KeyboardAvoidingView>

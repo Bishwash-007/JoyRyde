@@ -47,14 +47,14 @@ const AuthButton: React.FC<ButtonProps> = ({
   return (
     <TouchableOpacity
       onPress={onPress}
-      className="py-4 rounded-full w-full border border-gray-200 bg-white"
+      className="py-4 rounded-2xl w-full border border-borderMuted bg-white"
       activeOpacity={0.8}
       disabled={loading}
     >
       <View className="flex-row items-center justify-center gap-x-3">
         {loading ? (
           <Animated.View style={[animatedStyle]}>
-            <View className="w-5 h-5 border-2 border-gray-400 rounded-full border-t-black" />
+            <View className="w-5 h-5 border-2 border-borderMuted rounded-full border-t-black" />
           </Animated.View>
         ) : (
           icon && (
@@ -63,7 +63,7 @@ const AuthButton: React.FC<ButtonProps> = ({
         )}
 
         {title && (
-          <Text className="text-center font-Poppins_Regular text-base">
+          <Text className="text-center font-Regular text-base">
             {loading ? "Please wait..." : title}
           </Text>
         )}

@@ -1,3 +1,4 @@
+import { StatusBar, View, useColorScheme } from "react-native";
 import { Stack } from "expo-router";
 import {
   useFonts as usePoppins,
@@ -15,10 +16,12 @@ import {
   Roboto_200ExtraLight,
   Roboto_100Thin,
 } from "@expo-google-fonts/roboto";
+
 import "../global.css";
-import { StatusBar, View } from "react-native";
 
 export default function RootLayout() {
+  const theme = useColorScheme();
+  console.log(theme);
   const [poppinsLoaded] = usePoppins({
     Poppins_700Bold,
     Poppins_600SemiBold,
@@ -26,6 +29,7 @@ export default function RootLayout() {
     Poppins_200ExtraLight,
     Poppins_100Thin,
   });
+
   const [robotoLoaded] = useRoboto({
     Roboto_700Bold,
     Roboto_600SemiBold,
@@ -34,16 +38,16 @@ export default function RootLayout() {
     Roboto_100Thin,
   });
 
-  if (!poppinsLoaded || !robotoLoaded) return;
+  if (!poppinsLoaded || !robotoLoaded) return null;
 
   return (
-    <View className="flex-1">
+    <View className={`${theme === "dark" ? "dark" : ""} flex-1`}>
       <Stack
         screenOptions={{
           headerShown: false,
         }}
       />
-      <StatusBar barStyle={"dark-content"} />
+      <StatusBar translucent />
     </View>
   );
 }

@@ -48,7 +48,7 @@ const SetUpPassword: React.FC = () => {
       setTimeout(() => {
         setLoading(false);
         console.log({ password, confirmPassword });
-        router.push("/home");
+        router.push("/personal-info");
       }, 2000);
     }
   };

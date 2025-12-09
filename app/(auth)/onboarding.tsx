@@ -27,19 +27,22 @@ const data: OnboardItem[] = [
   {
     id: "1",
     title: "Joy Ride",
-    caption: "Hassle-free rides at your fingertips. Book a ride anytime, anywhere.",
+    caption:
+      "Hassle-free rides at your fingertips. Book a ride anytime, anywhere.",
     image: "https://pxhere.com/en/photo/253",
   },
   {
     id: "2",
     title: "Fast & Reliable",
-    caption: "Get to your destination quickly with our trusted drivers and optimized routes.",
+    caption:
+      "Get to your destination quickly with our trusted drivers and optimized routes.",
     image: "https://pxhere.com/en/photo/717905",
   },
   {
     id: "3",
     title: "Safe & Secure",
-    caption: "Ride with confidence. Our drivers and platform are fully verified for your safety.",
+    caption:
+      "Ride with confidence. Our drivers and platform are fully verified for your safety.",
     image: "https://pxhere.com/en/photo/1056127",
   },
 ];
@@ -66,7 +69,7 @@ const OnboardingScreen = () => {
     flatListRef.current?.scrollToIndex({ index: data.length - 1 });
   };
 
-  const getStarted = () => router.replace("/(auth)");
+  const getStarted = () => router.replace("/get-started");
 
   const isLastSlide = currentIndex === data.length - 1;
 
@@ -97,7 +100,6 @@ const OnboardingScreen = () => {
 
       {/* Buttons */}
       <View className="flex-row items-center justify-between px-6 mt-6 mb-10">
-        
         {/* Skip (Hide on last slide) */}
         {!isLastSlide ? (
           <TouchableOpacity onPress={skip}>

@@ -35,6 +35,11 @@ const GetStarted: React.FC = () => {
       {/* Buttons */}
       <View className="gap-4 mt-10 w-full flex flex-col items-center">
         <AuthButton
+          title="Continue with Email"
+          icon={require("@/assets/icons/email.png")}
+          onPress={() => router.push("/sign-in")}
+        />
+        <AuthButton
           title="Continue with Google"
           icon={require("@/assets/icons/google.png")}
           loading={googleLoading}
@@ -56,13 +61,10 @@ const GetStarted: React.FC = () => {
 
         {/* Sign In / Create Account */}
         <View className="mt-4 flex-col items-center gap-3">
-          <TouchableOpacity activeOpacity={0.7} onPress={() => router.push("/(auth)/sign-in")}>
-            <Text className="text-center font-Poppins_Regular text-base">
-              Sign In
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity activeOpacity={0.7} onPress={() => router.push("/(auth)/sign-up")}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => router.push("/(auth)/sign-up")}
+          >
             <Text className="text-center font-Poppins_Regular text-base">
               Create Account
             </Text>

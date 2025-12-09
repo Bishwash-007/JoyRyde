@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  useColorScheme,
 } from "react-native";
 import AuthButton from "@/components/auth/authButton";
 import Icon from "@/components/customUI/IconNode";
@@ -16,6 +17,7 @@ import { useRouter } from "expo-router";
 
 const SignUpScreen: React.FC = () => {
   const router = useRouter();
+  const theme = useColorScheme();
 
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -40,14 +42,14 @@ const SignUpScreen: React.FC = () => {
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
-        router.push("/verification");
+        router.push("/code");
       }, 2000);
     }
   };
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-white px-6 pt-36"
+      className={"flex-1 bg-background px-6 pt-36"}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       {/* Back Button */}
@@ -60,8 +62,10 @@ const SignUpScreen: React.FC = () => {
 
       {/* Heading */}
       <View className="mb-8">
-        <Text className="text-3xl font-Poppins_Bold">Join JoyRyde Today</Text>
-        <Text className="text-gray-500 font-Poppins_Regular mt-1 text-base">
+        <Text className="text-3xl font-Bold text-text">
+          Join JoyRyde Today
+        </Text>
+        <Text className="text-textMuted font-Regular mt-1 text-base">
           Register your account
         </Text>
       </View>
@@ -91,12 +95,12 @@ const SignUpScreen: React.FC = () => {
             <Icon name={"Square"} size={20} color={"gray"} />
           )}
         </TouchableOpacity>
-        <Text className="font-Poppins_Regular text-gray-600 text-base">
+        <Text className="font-Regular text-textMuted text-base">
           I agree JoyRyde&apos;s
         </Text>
 
         <TouchableOpacity onPress={() => setTermsVisible(true)}>
-          <Text className="ml-1 font-Poppins_Regular text-base text-green-400">
+          <Text className="ml-1 font-Regular text-base text-success">
             Terms and conditions
           </Text>
         </TouchableOpacity>
@@ -106,21 +110,21 @@ const SignUpScreen: React.FC = () => {
       <TouchableOpacity
         onPress={handleSignUp}
         className={`py-4 rounded-2xl mb-6 flex-row justify-center items-center ${
-          loading ? "bg-gray-500" : "bg-black"
+          loading ? "bg-primaryMuted" : "bg-primary"
         }`}
         disabled={loading}
       >
         {loading && <ActivityIndicator color="#fff" className="mr-2" />}
-        <Text className="text-white font-Poppins_SemiBold text-base">
+        <Text className="text-secondary font-SemiBold text-base">
           {loading ? "Signing Up..." : "Sign Up"}
         </Text>
       </TouchableOpacity>
 
       {/* Separator */}
       <View className="flex-row items-center justify-center mb-6">
-        <View className="bg-gray-300 h-px flex-1" />
-        <Text className="px-4 text-gray-400 font-Poppins_Regular">OR</Text>
-        <View className="bg-gray-300 h-px flex-1" />
+        <View className="bg-borderMuted h-px flex-1" />
+        <Text className="px-4 text-textMuted font-Regular">OR</Text>
+        <View className="bg-borderMuted h-px flex-1" />
       </View>
 
       {/* OAuth Buttons */}
@@ -147,11 +151,11 @@ const SignUpScreen: React.FC = () => {
 
       {/* Sign Up Prompt */}
       <View className="flex-row justify-center">
-        <Text className="text-gray-500 font-Poppins_Regular mr-1">
+        <Text className="text-textMuted font-Regular mr-1">
           Already have an account?
         </Text>
         <TouchableOpacity onPress={() => router.push("/sign-in")}>
-          <Text className="font-Poppins_SemiBold text-black">Sign In</Text>
+          <Text className="font-SemiBold text-text">Sign In</Text>
         </TouchableOpacity>
       </View>
 

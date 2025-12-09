@@ -75,7 +75,7 @@ const OTPScreen: React.FC = () => {
     setTimeout(() => {
       setLoading(false);
       router.push({
-        pathname: "/personal-info",
+        pathname: "/set-password",
         params: { email },
       });
     }, 2000);
