@@ -1,15 +1,15 @@
+import CustomButton from "@/components/auth/CustomButton";
+import Icon from "@/components/ui/IconNode";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
-  TextInput,
   KeyboardAvoidingView,
   Platform,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import Icon from "@/components/customUI/IconNode";
-import { useLocalSearchParams, useRouter } from "expo-router";
 
 const OTPScreen: React.FC = () => {
   const router = useRouter();
@@ -96,7 +96,7 @@ const OTPScreen: React.FC = () => {
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-white px-6 pt-28"
+      className="flex-1 bg-background px-6 pt-28"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <TouchableOpacity
@@ -107,13 +107,10 @@ const OTPScreen: React.FC = () => {
       </TouchableOpacity>
 
       <View className="mb-8">
-        <Text className="text-3xl font-Poppins_Bold">Enter OTP Code</Text>
-        <Text className="text-gray-500 font-Poppins_Regular mt-2 text-base">
+        <Text className="text-3xl font-Bold text-text">Enter OTP Code</Text>
+        <Text className="text-textMuted font-Regular mt-2 text-base">
           We sent a 6-digit verification code to{" "}
-          <Text className="font-Poppins_SemiBold">
-            {maskedEmail(safeEmail)}
-          </Text>
-          .
+          <Text className="font-SemiBold">{maskedEmail(safeEmail)}</Text>.
         </Text>
       </View>
 
@@ -131,38 +128,30 @@ const OTPScreen: React.FC = () => {
             }
             keyboardType="numeric"
             maxLength={1}
-            className="w-12 h-14 rounded-xl border border-gray-300 text-center text-xl font-Poppins_Bold"
+            className="w-12 h-14 rounded-xl border border-primary text-center text-xl font-Bold text-text"
           />
         ))}
       </View>
 
-      <TouchableOpacity
+      <CustomButton
+        title="Verify Code"
         onPress={handleVerify}
-        disabled={loading}
-        className={`py-4 rounded-2xl mb-6 flex-row justify-center items-center ${
-          loading ? "bg-gray-500" : "bg-black"
-        }`}
-      >
-        {loading && <ActivityIndicator color="#fff" className="mr-2" />}
-        <Text className="text-white font-Poppins_SemiBold text-base">
-          {loading ? "Verifying..." : "Verify"}
-        </Text>
-      </TouchableOpacity>
-      <View className="flex-row justify-center mt-2 items-center">
-        <Text className="text-gray-500 font-Poppins_Regular mr-1">
+        loading={loading}
+      />
+
+      <View className="flex-row justify-center mt-8 items-center">
+        <Text className="text-textMuted font-Regular mr-1">
           Didn&apos;t get a code?
         </Text>
 
         {canResend ? (
           <View>
             <TouchableOpacity activeOpacity={0.7} onPress={handleResend}>
-              <Text className="font-Poppins_SemiBold text-black">
-                Resend Code
-              </Text>
+              <Text className="font-SemiBold text-text">Resend Code</Text>
             </TouchableOpacity>
           </View>
         ) : (
-          <Text className="font-Poppins_SemiBold text-gray-400">
+          <Text className="font-SemiBold text-textMuted">
             Resend in {timer}s
           </Text>
         )}

@@ -59,7 +59,7 @@ const TextInputField: React.FC<TextInputFieldProps> = ({
   return (
     <Animated.View style={[animatedStyle]} className="w-full mb-4">
       <View
-        className={`flex-row items-center bg-foreground border rounded-2xl px-4 py-3 ${
+        className={`flex-row items-center bg-foreground border rounded-3xl px-6 py-3 ${
           error ? "border-error" : "border-border"
         }`}
       >
@@ -67,6 +67,7 @@ const TextInputField: React.FC<TextInputFieldProps> = ({
         <TextInput
           className="flex-1 ml-2 text-base font-Regular text-text"
           placeholder={placeholder}
+          placeholderTextColor="#9CA3AF"
           value={value}
           onChangeText={onChangeText}
           secureTextEntry={!isVisible}
@@ -83,7 +84,7 @@ const TextInputField: React.FC<TextInputFieldProps> = ({
           </TouchableOpacity>
         )}
       </View>
-      {error && <Text className="text-error text-sm mt-1">{error}</Text>}
+      {error && <Text className="text-error text-sm mt-1 font-Regular">{error}</Text>}
     </Animated.View>
   );
 };

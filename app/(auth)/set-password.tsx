@@ -1,15 +1,15 @@
+import CustomButton from "@/components/auth/CustomButton";
+import Icon from "@/components/ui/IconNode";
+import TextInputField from "@/components/ui/TextInputField";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import Icon from "@/components/customUI/IconNode";
-import TextInputField from "@/components/customUI/TextInputField";
-import { useRouter } from "expo-router";
 
 const SetUpPassword: React.FC = () => {
   const router = useRouter();
@@ -55,7 +55,7 @@ const SetUpPassword: React.FC = () => {
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-white px-6 pt-36"
+      className="flex-1 bg-background px-6 pt-36"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       {/* Back Button */}
@@ -68,8 +68,8 @@ const SetUpPassword: React.FC = () => {
 
       {/* Heading */}
       <View className="mb-8">
-        <Text className="text-3xl font-Poppins_Bold">Setup Password</Text>
-        <Text className="text-gray-500 font-Poppins_Regular mt-1 text-base">
+        <Text className="text-3xl font-Bold text-text">Setup Password</Text>
+        <Text className="text-textMuted font-Regular mt-1 text-base">
           Keep a strong password
         </Text>
       </View>
@@ -104,18 +104,7 @@ const SetUpPassword: React.FC = () => {
       />
 
       {/* Save Button */}
-      <TouchableOpacity
-        onPress={handleSave}
-        className={`py-4 rounded-2xl mb-6 flex-row justify-center items-center ${
-          loading ? "bg-gray-400" : "bg-black"
-        }`}
-        disabled={loading}
-      >
-        {loading && <ActivityIndicator color="#fff" className="mr-2" />}
-        <Text className="text-white font-Poppins_SemiBold text-base">
-          {loading ? "Saving..." : "Save"}
-        </Text>
-      </TouchableOpacity>
+      <CustomButton title="Save" onPress={handleSave} loading={loading} />
     </KeyboardAvoidingView>
   );
 };

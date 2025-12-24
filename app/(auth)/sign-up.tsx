@@ -1,23 +1,21 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Platform,
-  useColorScheme,
-} from "react-native";
 import AuthButton from "@/components/auth/authButton";
-import Icon from "@/components/customUI/IconNode";
-import TextInputField from "@/components/customUI/TextInputField";
+import CustomButton from "@/components/auth/CustomButton";
 import PolicyModal from "@/components/auth/PolicyModal";
+import Icon from "@/components/ui/IconNode";
+import TextInputField from "@/components/ui/TextInputField";
 import { termsText } from "@/constants/PolicyData";
 import { useRouter } from "expo-router";
+import React, { useState } from "react";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 const SignUpScreen: React.FC = () => {
   const router = useRouter();
-  const theme = useColorScheme();
 
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -53,18 +51,16 @@ const SignUpScreen: React.FC = () => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       {/* Back Button */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         className="absolute top-24 left-6 flex-row items-center"
         onPress={() => router.back()}
       >
         <Icon name="ArrowLeft" size={20} color="#6B7280" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* Heading */}
       <View className="mb-8">
-        <Text className="text-3xl font-Bold text-text">
-          Join JoyRyde Today
-        </Text>
+        <Text className="text-3xl font-Bold text-text">Join JoyRyde Today</Text>
         <Text className="text-textMuted font-Regular mt-1 text-base">
           Register your account
         </Text>
@@ -107,18 +103,7 @@ const SignUpScreen: React.FC = () => {
       </View>
 
       {/* Sign In Button */}
-      <TouchableOpacity
-        onPress={handleSignUp}
-        className={`py-4 rounded-2xl mb-6 flex-row justify-center items-center ${
-          loading ? "bg-primaryMuted" : "bg-primary"
-        }`}
-        disabled={loading}
-      >
-        {loading && <ActivityIndicator color="#fff" className="mr-2" />}
-        <Text className="text-secondary font-SemiBold text-base">
-          {loading ? "Signing Up..." : "Sign Up"}
-        </Text>
-      </TouchableOpacity>
+      <CustomButton title="Sign Up" onPress={handleSignUp} loading={loading} />
 
       {/* Separator */}
       <View className="flex-row items-center justify-center mb-6">

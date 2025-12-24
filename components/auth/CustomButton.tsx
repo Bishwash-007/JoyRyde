@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import {
-  Image,
   ImageSourcePropType,
   Text,
   TouchableOpacity,
@@ -13,18 +12,18 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-interface ButtonProps {
+interface CustomButtonProps {
   title?: string;
   icon?: ImageSourcePropType;
   onPress: () => void;
   loading?: boolean;
 }
 
-const AuthButton: React.FC<ButtonProps> = ({
+const CustomButton: React.FC<CustomButtonProps> = ({
   title,
-  onPress,
   icon,
-  loading = false,
+  onPress,
+  loading,
 }) => {
   const rotation = useSharedValue(0);
 
@@ -43,27 +42,21 @@ const AuthButton: React.FC<ButtonProps> = ({
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ rotateZ: `${rotation.value}deg` }],
   }));
-
   return (
     <TouchableOpacity
       onPress={onPress}
-      className="py-4 rounded-3xl w-full border border-borderMuted bg-white"
-      activeOpacity={0.8}
+      className="py-4 rounded-3xl w-full border border-borderMuted bg-primary"
       disabled={loading}
     >
       <View className="flex-row items-center justify-center gap-x-3">
-        {loading ? (
+        {loading && (
           <Animated.View style={[animatedStyle]}>
             <View className="w-5 h-5 border-2 border-borderMuted rounded-full border-t-black" />
           </Animated.View>
-        ) : (
-          icon && (
-            <Image source={icon} className="w-5 h-5" resizeMode="contain" />
-          )
         )}
 
         {title && (
-          <Text className="text-center font-Regular text-base">
+          <Text className="text-center font-Regular text-base text-textInverted">
             {loading ? "Please wait..." : title}
           </Text>
         )}
@@ -72,4 +65,4 @@ const AuthButton: React.FC<ButtonProps> = ({
   );
 };
 
-export default AuthButton;
+export default CustomButton;

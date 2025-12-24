@@ -1,15 +1,15 @@
+import CustomButton from "@/components/auth/CustomButton";
+import Icon from "@/components/ui/IconNode";
+import TextInputField from "@/components/ui/TextInputField";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import TextInputField from "@/components/customUI/TextInputField";
-import Icon from "@/components/customUI/IconNode";
-import { useRouter } from "expo-router";
 
 const ForgotPasswordScreen: React.FC = () => {
   const router = useRouter();
@@ -43,7 +43,7 @@ const ForgotPasswordScreen: React.FC = () => {
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-white px-6 pt-36"
+      className="flex-1 bg-background px-6 pt-36"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       {/* Back Button */}
@@ -56,8 +56,8 @@ const ForgotPasswordScreen: React.FC = () => {
 
       {/* Heading */}
       <View className="mb-6">
-        <Text className="text-3xl font-Poppins_Bold">Forgot Password?</Text>
-        <Text className="text-gray-500 font-Poppins_Regular mt-1 text-base">
+        <Text className="text-3xl font-Bold text-text">Forgot Password?</Text>
+        <Text className="text-textMuted font-Regular mt-1 text-base">
           We&apos;ll send an OTP code to your email to help you reset your
           password
         </Text>
@@ -77,26 +77,19 @@ const ForgotPasswordScreen: React.FC = () => {
       />
 
       {/* Send Code Button */}
-      <TouchableOpacity
+      <CustomButton
+        title="Send Code"
         onPress={handleSendCode}
-        disabled={loading}
-        className={`py-4 rounded-2xl mb-6 flex-row justify-center items-center ${
-          loading ? "bg-gray-500" : "bg-black"
-        }`}
-      >
-        {loading && <ActivityIndicator color="#fff" className="mr-2" />}
-        <Text className="text-white font-Poppins_SemiBold text-base">
-          {loading ? "Sending..." : "Send Code"}
-        </Text>
-      </TouchableOpacity>
+        loading={loading}
+      />
 
       {/* Sign Up Prompt */}
-      <View className="flex-row justify-center">
-        <Text className="text-gray-500 font-Poppins_Regular mr-1">
+      <View className="flex-row justify-center mt-4">
+        <Text className="text-textMuted font-Regular mr-1">
           Remember Password?
         </Text>
         <TouchableOpacity onPress={() => router.push("/sign-in")}>
-          <Text className="font-Poppins_SemiBold text-black">Sign In</Text>
+          <Text className="font-SemiBold text-text">Sign In</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

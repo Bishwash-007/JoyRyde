@@ -1,16 +1,22 @@
-import React, { useState } from "react";
+import AuthButton from "@/components/auth/authButton";
+import CustomButton from "@/components/auth/CustomButton";
+import Icon from "@/components/ui/IconNode";
+import TextInputField from "@/components/ui/TextInputField";
+import { useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import AuthButton from "@/components/auth/authButton";
-import Icon from "@/components/customUI/IconNode";
-import TextInputField from "@/components/customUI/TextInputField";
-import { useRouter } from "expo-router";
+import {
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from "react-native-reanimated";
 
 const SignInScreen: React.FC = () => {
   const router = useRouter();
@@ -47,27 +53,44 @@ const SignInScreen: React.FC = () => {
     }
   };
 
+  const rotation = useSharedValue(0);
+
+  useEffect(() => {
+    if (loading) {
+      rotation.value = withRepeat(
+        withTiming(360, { duration: 1000 }),
+        -1,
+        false
+      );
+    } else {
+      rotation.value = 0;
+    }
+  }, [loading, rotation]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ rotateZ: `${rotation.value}deg` }],
+  }));
+
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-white px-6 pt-36"
+      className="flex-1 bg-background px-6 pt-36"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       {/* Back Button */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         className="absolute top-24 left-6 flex-row items-center"
         onPress={() => router.back()}
       >
         <Icon name="ArrowLeft" size={20} color="#6B7280" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* Heading */}
       <View className="mb-8">
-        <Text className="text-3xl font-Poppins_Bold">Welcome Back</Text>
-        <Text className="text-gray-500 font-Poppins_Regular mt-1 text-base">
+        <Text className="text-3xl font-Bold text-text">Welcome Back</Text>
+        <Text className="text-textMuted font-Regular mt-1 text-base">
           Login to your account
         </Text>
       </View>
-
       {/* Form */}
       <TextInputField
         placeholder="Email"
@@ -96,9 +119,7 @@ const SignInScreen: React.FC = () => {
       {/* Sign Up Prompt */}
       <View className="flex-row justify-end">
         <TouchableOpacity onPress={() => router.push("/forgot-password")}>
-          <Text className="font-Poppins_Regular text-gray-600">
-            Forgot Password ?
-          </Text>
+          <Text className="font-Regular text-text">Forgot Password ?</Text>
         </TouchableOpacity>
       </View>
 
@@ -114,28 +135,17 @@ const SignInScreen: React.FC = () => {
             <Icon name={"Square"} size={20} color={"gray"} />
           )}
         </TouchableOpacity>
-        <Text className="font-Poppins_Regular text-gray-600">Remember Me</Text>
+        <Text className="font-Regular text-textMuted">Remember Me</Text>
       </View>
 
       {/* Sign In Button */}
-      <TouchableOpacity
-        onPress={handleSignIn}
-        className={`py-4 rounded-2xl mb-6 flex-row justify-center items-center ${
-          loading ? "bg-gray-400" : "bg-black"
-        }`}
-        disabled={loading}
-      >
-        {loading && <ActivityIndicator color="#fff" className="mr-2" />}
-        <Text className="text-white font-Poppins_SemiBold text-base">
-          {loading ? "Signing In..." : "Sign In"}
-        </Text>
-      </TouchableOpacity>
+      <CustomButton title="Sign In" onPress={handleSignIn} loading={loading} />
 
       {/* Separator */}
       <View className="flex-row items-center justify-center mb-6">
-        <View className="bg-gray-300 h-px flex-1" />
-        <Text className="px-4 text-gray-400 font-Poppins_Regular">OR</Text>
-        <View className="bg-gray-300 h-px flex-1" />
+        <View className="bg-borderMuted h-px flex-1" />
+        <Text className="px-4 text-textMuted font-Regular">OR</Text>
+        <View className="bg-borderMuted h-px flex-1" />
       </View>
 
       {/* OAuth Buttons */}
@@ -162,11 +172,11 @@ const SignInScreen: React.FC = () => {
 
       {/* Sign Up Prompt */}
       <View className="flex-row justify-center">
-        <Text className="text-gray-500 font-Poppins_Regular mr-1">
+        <Text className="text-textMuted font-Regular mr-1">
           Don&apos;t have an account?
         </Text>
         <TouchableOpacity onPress={() => router.push("/sign-up")}>
-          <Text className="font-Poppins_SemiBold text-black">Sign Up</Text>
+          <Text className="font-SemiBold text-text">Sign Up</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

@@ -1,3 +1,4 @@
+import CustomButton from "@/components/auth/CustomButton";
 import { useRouter } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
@@ -74,7 +75,7 @@ const OnboardingScreen = () => {
   const isLastSlide = currentIndex === data.length - 1;
 
   return (
-    <View className="flex-1 bg-white px-6 pt-36">
+    <View className="flex-1 bg-background px-6 pt-36">
       <FlatList
         ref={flatListRef}
         data={data}
@@ -92,34 +93,29 @@ const OnboardingScreen = () => {
           <View
             key={i}
             className={`h-2 rounded-full mx-1 ${
-              currentIndex === i ? "w-6 bg-black" : "w-2 bg-gray-300"
+              currentIndex === i ? "w-6 bg-primary" : "w-2 bg-primaryMuted"
             }`}
           />
         ))}
       </View>
 
       {/* Buttons */}
-      <View className="flex-row items-center justify-between px-6 mt-6 mb-10">
+      <View className="flex-row items-center justify-between mt-6 mb-10 w-full">
         {/* Skip (Hide on last slide) */}
         {!isLastSlide ? (
           <TouchableOpacity onPress={skip}>
-            <Text className="text-gray-500 text-base font-Poppins_Regular">
-              Skip
-            </Text>
+            <Text className="text-textMuted text-base font-Regular">Skip</Text>
           </TouchableOpacity>
         ) : (
           <View />
         )}
-
         {/* Next / Get Started */}
-        <TouchableOpacity
-          onPress={isLastSlide ? getStarted : nextSlide}
-          className="bg-black px-6 py-3 rounded-full"
-        >
-          <Text className="text-white text-base font-Poppins_Regular">
-            {isLastSlide ? "Get Started" : "Next"}
-          </Text>
-        </TouchableOpacity>
+        <View className=" w-36">
+          <CustomButton
+            title={isLastSlide ? "Get Started" : "Next"}
+            onPress={isLastSlide ? getStarted : nextSlide}
+          />
+        </View>
       </View>
     </View>
   );
@@ -137,11 +133,9 @@ const RenderItem = ({ item }: { item: OnboardItem }) => {
         resizeMode="cover"
       />
 
-      <Text className="text-3xl font-Poppins_Bold text-center mt-6">
-        {item.title}
-      </Text>
+      <Text className="text-3xl font-Bold text-center mt-6 text-text">{item.title}</Text>
 
-      <Text className="text-gray-500 font-Poppins_Regular text-center mt-2 px-4">
+      <Text className="text-textMuted font-Regular text-center mt-2 px-4">
         {item.caption}
       </Text>
     </View>

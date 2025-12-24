@@ -13,7 +13,7 @@ const GetStarted: React.FC = () => {
   const [termsVisible, setTermsVisible] = useState(false);
 
   return (
-    <View className="w-full h-full bg-white px-6 pt-24 pb-12 justify-start relative items-center">
+    <View className="w-full h-full bg-background px-6 pt-24 pb-12 justify-start relative items-center">
       {/* Top Section */}
       <View className="items-center">
         {/* Logo */}
@@ -24,10 +24,10 @@ const GetStarted: React.FC = () => {
         />
 
         {/* Heading */}
-        <Text className="text-3xl font-Poppins_Bold text-center">
+        <Text className="text-3xl font-Bold text-center text-text">
           Let&apos;s Get Started!
         </Text>
-        <Text className="text-gray-500 text-base font-Poppins_Regular mt-2 text-center">
+        <Text className="text-textMuted text-base font-Regular mt-2 text-center">
           Let&apos;s dive into your account
         </Text>
       </View>
@@ -65,7 +65,7 @@ const GetStarted: React.FC = () => {
             activeOpacity={0.7}
             onPress={() => router.push("/(auth)/sign-up")}
           >
-            <Text className="text-center font-Poppins_Regular text-base">
+            <Text className="text-center text-text font-Regular">
               Create Account
             </Text>
           </TouchableOpacity>
@@ -75,13 +75,13 @@ const GetStarted: React.FC = () => {
       {/* Footer */}
       <View className="flex-row justify-center items-center gap-6 mt-12 absolute bottom-6">
         <TouchableOpacity onPress={() => setPrivacyVisible(true)}>
-          <Text className="text-sm font-Poppins_ExtraLight text-gray-400">
+          <Text className="text-sm font-Light text-textMuted">
             Privacy Policy
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => setTermsVisible(true)}>
-          <Text className="text-sm font-Poppins_ExtraLight text-gray-400">
+          <Text className="text-sm font-Light text-textMuted">
             Terms of Service
           </Text>
         </TouchableOpacity>
