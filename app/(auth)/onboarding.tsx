@@ -1,6 +1,6 @@
-import CustomButton from "@/components/auth/CustomButton";
-import { useRouter } from "expo-router";
-import React, { useRef, useState } from "react";
+import CustomButton from '@/components/auth/CustomButton';
+import { useRouter } from 'expo-router';
+import React, { useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -11,9 +11,9 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   FlatList as RNFlatList,
-} from "react-native";
+} from 'react-native';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 
 // ---------- Types ----------
 interface OnboardItem {
@@ -26,25 +26,25 @@ interface OnboardItem {
 // ---------- Data ----------
 const data: OnboardItem[] = [
   {
-    id: "1",
-    title: "Joy Ride",
+    id: '1',
+    title: 'Joy Ride',
     caption:
-      "Hassle-free rides at your fingertips. Book a ride anytime, anywhere.",
-    image: "https://pxhere.com/en/photo/253",
+      'Hassle-free rides at your fingertips. Book a ride anytime, anywhere.',
+    image: 'https://pxhere.com/en/photo/253',
   },
   {
-    id: "2",
-    title: "Fast & Reliable",
+    id: '2',
+    title: 'Fast & Reliable',
     caption:
-      "Get to your destination quickly with our trusted drivers and optimized routes.",
-    image: "https://pxhere.com/en/photo/717905",
+      'Get to your destination quickly with our trusted drivers and optimized routes.',
+    image: 'https://pxhere.com/en/photo/717905',
   },
   {
-    id: "3",
-    title: "Safe & Secure",
+    id: '3',
+    title: 'Safe & Secure',
     caption:
-      "Ride with confidence. Our drivers and platform are fully verified for your safety.",
-    image: "https://pxhere.com/en/photo/1056127",
+      'Ride with confidence. Our drivers and platform are fully verified for your safety.',
+    image: 'https://pxhere.com/en/photo/1056127',
   },
 ];
 
@@ -70,7 +70,7 @@ const OnboardingScreen = () => {
     flatListRef.current?.scrollToIndex({ index: data.length - 1 });
   };
 
-  const getStarted = () => router.replace("/get-started");
+  const getStarted = () => router.replace('/get-started');
 
   const isLastSlide = currentIndex === data.length - 1;
 
@@ -93,7 +93,7 @@ const OnboardingScreen = () => {
           <View
             key={i}
             className={`h-2 rounded-full mx-1 ${
-              currentIndex === i ? "w-6 bg-primary" : "w-2 bg-primaryMuted"
+              currentIndex === i ? 'w-6 bg-primary' : 'w-2 bg-primaryMuted'
             }`}
           />
         ))}
@@ -112,7 +112,7 @@ const OnboardingScreen = () => {
         {/* Next / Get Started */}
         <View className=" w-36">
           <CustomButton
-            title={isLastSlide ? "Get Started" : "Next"}
+            title={isLastSlide ? 'Get Started' : 'Next'}
             onPress={isLastSlide ? getStarted : nextSlide}
           />
         </View>
@@ -133,7 +133,9 @@ const RenderItem = ({ item }: { item: OnboardItem }) => {
         resizeMode="cover"
       />
 
-      <Text className="text-3xl font-Bold text-center mt-6 text-text">{item.title}</Text>
+      <Text className="text-3xl font-Bold text-center mt-6 text-text">
+        {item.title}
+      </Text>
 
       <Text className="text-textMuted font-Regular text-center mt-2 px-4">
         {item.caption}

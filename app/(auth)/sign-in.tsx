@@ -1,62 +1,66 @@
-import AuthButton from "@/components/auth/authButton";
-import CustomButton from "@/components/auth/CustomButton";
-import Icon from "@/components/ui/IconNode";
-import TextInputField from "@/components/ui/TextInputField";
-import { useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
+import AuthButton from '@/components/auth/authButton';
+import CustomButton from '@/components/auth/CustomButton';
+import Icon from '@/components/ui/IconNode';
+import TextInputField from '@/components/ui/TextInputField';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useRouter } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 import {
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withTiming,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
 const SignInScreen: React.FC = () => {
   const router = useRouter();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const login = useAuthStore((s) => s.login);
+  const storeLoading = useAuthStore((s) => s.loading);
+  const storeError = useAuthStore((s) => s.error);
   const [rememberMe, setRememberMe] = useState<boolean>(false);
-  const [errors, setErrors] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({ email: '', password: '' });
   const [googleLoading, setGoogleLoading] = useState<boolean>(false);
   const [appleLoading, setAppleLoading] = useState<boolean>(false);
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     let hasError = false;
-    const newErrors = { email: "", password: "" };
+    const newErrors = { email: '', password: '' };
 
-    if (!email.includes("@")) {
-      newErrors.email = "Invalid email address";
+    if (!email.includes('@')) {
+      newErrors.email = 'Invalid email address';
       hasError = true;
     }
     if (password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
+      newErrors.password = 'Password must be at least 6 characters';
       hasError = true;
     }
 
     setErrors(newErrors);
 
     if (!hasError) {
-      setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-        router.push("/home");
-      }, 2000);
+      try {
+        await login({ email, password });
+        router.push('/home');
+      } catch (err) {
+        setErrors((prev) => ({ ...prev, password: 'Invalid credentials' }));
+      }
     }
   };
 
   const rotation = useSharedValue(0);
 
   useEffect(() => {
-    if (loading) {
+    if (storeLoading) {
       rotation.value = withRepeat(
         withTiming(360, { duration: 1000 }),
         -1,
@@ -65,7 +69,7 @@ const SignInScreen: React.FC = () => {
     } else {
       rotation.value = 0;
     }
-  }, [loading, rotation]);
+  }, [storeLoading, rotation]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ rotateZ: `${rotation.value}deg` }],
@@ -74,7 +78,7 @@ const SignInScreen: React.FC = () => {
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-background px-6 pt-36"
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       {/* Back Button */}
       {/* <TouchableOpacity
@@ -97,28 +101,28 @@ const SignInScreen: React.FC = () => {
         value={email}
         onChangeText={(text) => {
           setEmail(text);
-          if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
+          if (errors.email) setErrors((prev) => ({ ...prev, email: '' }));
         }}
         error={errors.email}
         iconName="Mail"
-        loading={loading}
+        loading={storeLoading}
       />
       <TextInputField
         placeholder="Password"
         value={password}
         onChangeText={(text) => {
           setPassword(text);
-          if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
+          if (errors.password) setErrors((prev) => ({ ...prev, password: '' }));
         }}
         secure
         error={errors.password}
         iconName="Lock"
-        loading={loading}
+        loading={storeLoading}
       />
 
       {/* Sign Up Prompt */}
       <View className="flex-row justify-end">
-        <TouchableOpacity onPress={() => router.push("/forgot-password")}>
+        <TouchableOpacity onPress={() => router.push('/forgot-password')}>
           <Text className="font-Regular text-text">Forgot Password ?</Text>
         </TouchableOpacity>
       </View>
@@ -130,16 +134,23 @@ const SignInScreen: React.FC = () => {
           onPress={() => setRememberMe(!rememberMe)}
         >
           {rememberMe ? (
-            <Icon name={"SquareCheck"} size={20} color={"gray"} />
+            <Icon name={'SquareCheck'} size={20} color={'gray'} />
           ) : (
-            <Icon name={"Square"} size={20} color={"gray"} />
+            <Icon name={'Square'} size={20} color={'gray'} />
           )}
         </TouchableOpacity>
         <Text className="font-Regular text-textMuted">Remember Me</Text>
       </View>
 
       {/* Sign In Button */}
-      <CustomButton title="Sign In" onPress={handleSignIn} loading={loading} />
+      {storeError && (
+        <Text className="text-error text-center mb-2">{storeError}</Text>
+      )}
+      <CustomButton
+        title="Sign In"
+        onPress={handleSignIn}
+        loading={storeLoading}
+      />
 
       {/* Separator */}
       <View className="flex-row items-center justify-center mb-6">
@@ -152,7 +163,7 @@ const SignInScreen: React.FC = () => {
       <View className="flex-col justify-between gap-4 mb-6">
         <AuthButton
           title="Continue with Google"
-          icon={require("@/assets/icons/google.png")}
+          icon={require('@/assets/icons/google.png')}
           loading={googleLoading}
           onPress={() => {
             setGoogleLoading(true);
@@ -161,7 +172,7 @@ const SignInScreen: React.FC = () => {
         />
         <AuthButton
           title="Continue with Apple"
-          icon={require("@/assets/icons/apple.png")}
+          icon={require('@/assets/icons/apple.png')}
           loading={appleLoading}
           onPress={() => {
             setAppleLoading(true);
@@ -175,7 +186,7 @@ const SignInScreen: React.FC = () => {
         <Text className="text-textMuted font-Regular mr-1">
           Don&apos;t have an account?
         </Text>
-        <TouchableOpacity onPress={() => router.push("/sign-up")}>
+        <TouchableOpacity onPress={() => router.push('/sign-up')}>
           <Text className="font-SemiBold text-text">Sign Up</Text>
         </TouchableOpacity>
       </View>

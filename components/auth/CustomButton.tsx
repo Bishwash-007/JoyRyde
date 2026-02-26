@@ -1,16 +1,16 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 import {
   ImageSourcePropType,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withTiming,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
 interface CustomButtonProps {
   title?: string;
@@ -57,7 +57,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 
         {title && (
           <Text className="text-center font-Regular text-base text-textInverted">
-            {loading ? "Please wait..." : title}
+            {loading ? 'Please wait...' : title}
           </Text>
         )}
       </View>

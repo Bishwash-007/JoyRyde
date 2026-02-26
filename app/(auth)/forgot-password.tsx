@@ -1,29 +1,29 @@
-import CustomButton from "@/components/auth/CustomButton";
-import Icon from "@/components/ui/IconNode";
-import TextInputField from "@/components/ui/TextInputField";
-import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import CustomButton from '@/components/auth/CustomButton';
+import Icon from '@/components/ui/IconNode';
+import TextInputField from '@/components/ui/TextInputField';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 
 const ForgotPasswordScreen: React.FC = () => {
   const router = useRouter();
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ email: string }>({ email: "" });
+  const [errors, setErrors] = useState<{ email: string }>({ email: '' });
 
   const handleSendCode = () => {
     let hasError = false;
-    const newErrors = { email: "" };
+    const newErrors = { email: '' };
 
-    if (!email.includes("@")) {
-      newErrors.email = "Invalid email address";
+    if (!email.includes('@')) {
+      newErrors.email = 'Invalid email address';
       hasError = true;
     }
 
@@ -34,7 +34,7 @@ const ForgotPasswordScreen: React.FC = () => {
       setTimeout(() => {
         setLoading(false);
         router.push({
-          pathname: "/code",
+          pathname: '/code',
           params: { email },
         });
       }, 2000);
@@ -44,7 +44,7 @@ const ForgotPasswordScreen: React.FC = () => {
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-background px-6 pt-36"
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       {/* Back Button */}
       <TouchableOpacity
@@ -69,7 +69,7 @@ const ForgotPasswordScreen: React.FC = () => {
         value={email}
         onChangeText={(text) => {
           setEmail(text);
-          if (errors.email) setErrors({ email: "" });
+          if (errors.email) setErrors({ email: '' });
         }}
         error={errors.email}
         iconName="Mail"
@@ -88,7 +88,7 @@ const ForgotPasswordScreen: React.FC = () => {
         <Text className="text-textMuted font-Regular mr-1">
           Remember Password?
         </Text>
-        <TouchableOpacity onPress={() => router.push("/sign-in")}>
+        <TouchableOpacity onPress={() => router.push('/sign-in')}>
           <Text className="font-SemiBold text-text">Sign In</Text>
         </TouchableOpacity>
       </View>

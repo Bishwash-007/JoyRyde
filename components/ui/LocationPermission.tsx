@@ -1,8 +1,8 @@
-import * as Location from "expo-location";
-import React, { useState } from "react";
-import { Alert, Linking, Platform, Text, View } from "react-native";
-import CustomButton from "../auth/CustomButton";
-import Icon from "./IconNode";
+import * as Location from 'expo-location';
+import React, { useState } from 'react';
+import { Alert, Linking, Platform, Text, View } from 'react-native';
+import CustomButton from '../auth/CustomButton';
+import Icon from './IconNode';
 
 type Props = {
   onGranted?: () => void;
@@ -25,28 +25,28 @@ const LocationPermission: React.FC<Props> = ({ onGranted, onSkip }) => {
       }
 
       const actions: { text: string; onPress?: () => void }[] = [
-        { text: "OK" },
+        { text: 'OK' },
       ];
       if (!canAskAgain) {
         actions.unshift({
-          text: "Open Settings",
+          text: 'Open Settings',
           onPress: () => {
-            if (typeof Linking.openSettings === "function") {
+            if (typeof Linking.openSettings === 'function') {
               Linking.openSettings();
-            } else if (Platform.OS === "ios") {
-              Linking.openURL("app-settings:");
+            } else if (Platform.OS === 'ios') {
+              Linking.openURL('app-settings:');
             }
           },
         });
       }
 
-    //   Alert.alert(
-    //     "Permission Denied",
-    //     "Enable location in Settings to find rides nearby.",
-    //     actions
-    //   );
+      //   Alert.alert(
+      //     "Permission Denied",
+      //     "Enable location in Settings to find rides nearby.",
+      //     actions
+      //   );
     } catch {
-    //   Alert.alert("Error", "Failed to request location permission.");
+      //   Alert.alert("Error", "Failed to request location permission.");
     } finally {
       setLoading(false);
     }

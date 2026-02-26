@@ -1,17 +1,17 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 import {
   Image,
   ImageSourcePropType,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withTiming,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
 interface ButtonProps {
   title?: string;
@@ -64,7 +64,7 @@ const AuthButton: React.FC<ButtonProps> = ({
 
         {title && (
           <Text className="text-center font-Regular text-base">
-            {loading ? "Please wait..." : title}
+            {loading ? 'Please wait...' : title}
           </Text>
         )}
       </View>

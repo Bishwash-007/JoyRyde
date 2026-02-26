@@ -1,9 +1,9 @@
-import { useRouter } from "expo-router";
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
-import AuthButton from "@/components/auth/authButton";
-import PolicyModal from "@/components/auth/PolicyModal";
-import { privacyText, termsText } from "@/constants/PolicyData";
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
+import AuthButton from '@/components/auth/authButton';
+import PolicyModal from '@/components/auth/PolicyModal';
+import { privacyText, termsText } from '@/constants/PolicyData';
 
 const GetStarted: React.FC = () => {
   const router = useRouter();
@@ -18,7 +18,7 @@ const GetStarted: React.FC = () => {
       <View className="items-center">
         {/* Logo */}
         <Image
-          source={require("@/assets/icons/icon.png")}
+          source={require('@/assets/icons/icon.png')}
           resizeMode="cover"
           className="w-40 h-40 rounded-2xl mb-8"
         />
@@ -36,12 +36,12 @@ const GetStarted: React.FC = () => {
       <View className="gap-4 mt-10 w-full flex flex-col items-center">
         <AuthButton
           title="Continue with Email"
-          icon={require("@/assets/icons/email.png")}
-          onPress={() => router.push("/sign-in")}
+          icon={require('@/assets/icons/email.png')}
+          onPress={() => router.push('/sign-in')}
         />
         <AuthButton
           title="Continue with Google"
-          icon={require("@/assets/icons/google.png")}
+          icon={require('@/assets/icons/google.png')}
           loading={googleLoading}
           onPress={() => {
             setGoogleLoading(true);
@@ -51,7 +51,7 @@ const GetStarted: React.FC = () => {
 
         <AuthButton
           title="Continue with Apple"
-          icon={require("@/assets/icons/apple.png")}
+          icon={require('@/assets/icons/apple.png')}
           loading={appleLoading}
           onPress={() => {
             setAppleLoading(true);
@@ -63,7 +63,7 @@ const GetStarted: React.FC = () => {
         <View className="mt-4 flex-col items-center gap-3">
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => router.push("/(auth)/sign-up")}
+            onPress={() => router.push('/(auth)/sign-up')}
           >
             <Text className="text-center text-text font-Regular">
               Create Account

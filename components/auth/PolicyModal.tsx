@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   Dimensions,
   FlatList,
-} from "react-native";
-import Modal from "react-native-modal";
+} from 'react-native';
+import Modal from 'react-native-modal';
 
 interface PolicyModalProps {
   visible: boolean;
@@ -15,7 +15,7 @@ interface PolicyModalProps {
   content: string;
 }
 
-const { height } = Dimensions.get("window");
+const { height } = Dimensions.get('window');
 
 const PolicyModal: React.FC<PolicyModalProps> = ({
   visible,
@@ -23,15 +23,15 @@ const PolicyModal: React.FC<PolicyModalProps> = ({
   title,
   content,
 }) => {
-  const data = content.split("\n");
+  const data = content.split('\n');
 
   const renderItem = ({ item }: { item: string }) => (
     <Text
       className={`text-gray-700 text-base font-Poppins_Regular ${
-        item.startsWith("###") ? "mt-4 font-Poppins_Bold text-lg" : "mt-2"
+        item.startsWith('###') ? 'mt-4 font-Poppins_Bold text-lg' : 'mt-2'
       }`}
     >
-      {item.replace("###", "")}
+      {item.replace('###', '')}
     </Text>
   );
 
@@ -42,7 +42,7 @@ const PolicyModal: React.FC<PolicyModalProps> = ({
       onBackButtonPress={onClose}
       swipeDirection="down"
       onSwipeComplete={onClose}
-      style={{ margin: 0, justifyContent: "flex-end" }}
+      style={{ margin: 0, justifyContent: 'flex-end' }}
       animationIn="slideInUp"
       animationOut="slideOutDown"
       propagateSwipe={true}

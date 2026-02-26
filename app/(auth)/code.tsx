@@ -1,7 +1,8 @@
-import CustomButton from "@/components/auth/CustomButton";
-import Icon from "@/components/ui/IconNode";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useEffect, useRef, useState } from "react";
+import CustomButton from '@/components/auth/CustomButton';
+import Icon from '@/components/ui/IconNode';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -9,17 +10,24 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 
 const OTPScreen: React.FC = () => {
   const router = useRouter();
   const { email } = useLocalSearchParams();
-  const safeEmail = Array.isArray(email) ? email[0] : email ?? "";
+  const safeEmail = Array.isArray(email) ? email[0] : (email ?? '');
+  const { flow } = useLocalSearchParams();
+  const safeFlow = Array.isArray(flow) ? flow[0] : (flow ?? '');
 
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const [loading, setLoading] = useState(false);
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [localLoading, setLocalLoading] = useState(false);
   const [timer, setTimer] = useState(90);
   const [canResend, setCanResend] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const verifyOtp = useAuthStore((s) => s.verifyOtp);
+  const requestOtp = useAuthStore((s) => s.requestOtp);
+  const storeLoading = useAuthStore((s) => s.loading);
 
   const inputs = useRef<(TextInput | null)[]>([]);
   useEffect(() => {
@@ -37,11 +45,16 @@ const OTPScreen: React.FC = () => {
     return () => clearInterval(interval);
   }, [timer]);
 
-  const handleResend = () => {
+  const handleResend = async () => {
     if (!canResend) return;
-    console.log("Resend OTP");
-    setCanResend(false);
-    setTimer(90);
+    setError(null);
+    try {
+      await requestOtp({ email: safeEmail });
+      setCanResend(false);
+      setTimer(90);
+    } catch (err) {
+      setError('Failed to resend code. Please try again.');
+    }
   };
 
   const handleOTPChange = (value: string, index: number) => {
@@ -58,46 +71,60 @@ const OTPScreen: React.FC = () => {
   };
 
   const handleBackspace = (value: string, index: number) => {
-    if (value === "" && index > 0) {
+    if (value === '' && index > 0) {
       const updated = [...otp];
-      updated[index - 1] = "";
+      updated[index - 1] = '';
       setOtp(updated);
 
       inputs.current[index - 1]?.focus();
     }
   };
 
-  const handleVerify = () => {
-    const allFilled = otp.every((d) => d !== "");
+  const handleVerify = async () => {
+    setError(null);
+    const allFilled = otp.every((d) => d !== '');
     if (!allFilled) return;
 
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      router.push({
-        pathname: "/set-password",
-        params: { email },
-      });
-    }, 2000);
+    setLocalLoading(true);
+    try {
+      // If this code screen is part of the signup flow, don't call verifyOtp
+      // (server will validate/consume the code in the complete-signup step).
+      if (safeFlow === 'signup') {
+        router.push({
+          pathname: '/set-password',
+          params: { email: safeEmail, code: otp.join('') },
+        });
+      } else {
+        await verifyOtp({ email: safeEmail, code: otp.join('') });
+        router.push({
+          pathname: '/set-password',
+          params: { email: safeEmail, code: otp.join('') },
+        });
+      }
+    } catch (err) {
+      setError('Invalid or expired code. Please try again.');
+    } finally {
+      setLocalLoading(false);
+    }
   };
 
   const maskedEmail = (email: string) => {
-    if (!email.includes("@")) return "";
-    const [username, domain] = email.split("@");
+    if (!email.includes('@')) return '';
+    const [username, domain] = email.split('@');
 
     if (username.length <= 2) {
-      return username[0] + "*****@" + domain;
+      return username[0] + '*****@' + domain;
     }
 
     return (
-      username.substring(0, 2) + "*".repeat(username.length - 2) + "@" + domain
+      username.substring(0, 2) + '*'.repeat(username.length - 2) + '@' + domain
     );
   };
 
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-background px-6 pt-28"
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <TouchableOpacity
         onPress={() => router.back()}
@@ -109,7 +136,7 @@ const OTPScreen: React.FC = () => {
       <View className="mb-8">
         <Text className="text-3xl font-Bold text-text">Enter OTP Code</Text>
         <Text className="text-textMuted font-Regular mt-2 text-base">
-          We sent a 6-digit verification code to{" "}
+          We sent a 6-digit verification code to{' '}
           <Text className="font-SemiBold">{maskedEmail(safeEmail)}</Text>.
         </Text>
       </View>
@@ -124,7 +151,7 @@ const OTPScreen: React.FC = () => {
             value={digit}
             onChangeText={(text) => handleOTPChange(text, index)}
             onKeyPress={({ nativeEvent }) =>
-              nativeEvent.key === "Backspace" && handleBackspace(digit, index)
+              nativeEvent.key === 'Backspace' && handleBackspace(digit, index)
             }
             keyboardType="numeric"
             maxLength={1}
@@ -133,10 +160,11 @@ const OTPScreen: React.FC = () => {
         ))}
       </View>
 
+      {error && <Text className="text-error text-center mb-2">{error}</Text>}
       <CustomButton
         title="Verify Code"
         onPress={handleVerify}
-        loading={loading}
+        loading={localLoading || storeLoading}
       />
 
       <View className="flex-row justify-center mt-8 items-center">

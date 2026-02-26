@@ -1,54 +1,71 @@
-import AuthButton from "@/components/auth/authButton";
-import CustomButton from "@/components/auth/CustomButton";
-import PolicyModal from "@/components/auth/PolicyModal";
-import Icon from "@/components/ui/IconNode";
-import TextInputField from "@/components/ui/TextInputField";
-import { termsText } from "@/constants/PolicyData";
-import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import AuthButton from '@/components/auth/authButton';
+import CustomButton from '@/components/auth/CustomButton';
+import PolicyModal from '@/components/auth/PolicyModal';
+import Icon from '@/components/ui/IconNode';
+import TextInputField from '@/components/ui/TextInputField';
+import { termsText } from '@/constants/PolicyData';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 
 const SignUpScreen: React.FC = () => {
   const router = useRouter();
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
   const [rememberMe, setRememberMe] = useState<boolean>(false);
-  const [errors, setErrors] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({ email: '', password: '' });
   const [googleLoading, setGoogleLoading] = useState<boolean>(false);
   const [appleLoading, setAppleLoading] = useState<boolean>(false);
   const [termsVisible, setTermsVisible] = useState<boolean>(false);
 
-  const handleSignUp = () => {
-    let hasError = false;
-    const newErrors = { email: "", password: "" };
+  const registerUser = useAuthStore((s) => s.registerUser);
 
-    if (!email.includes("@")) {
-      newErrors.email = "Invalid email address";
+  const handleSignUp = async () => {
+    let hasError = false;
+    const newErrors = { email: '', password: '' };
+    const trimmedEmail = email.trim();
+
+    if (!trimmedEmail.includes('@')) {
+      newErrors.email = 'Invalid email address';
       hasError = true;
     }
 
     setErrors(newErrors);
 
-    if (!hasError) {
-      setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-        router.push("/code");
-      }, 2000);
+    if (hasError) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await registerUser({ email: trimmedEmail });
+      router.push({
+        pathname: '/code',
+        params: { email: trimmedEmail, flow: 'signup' },
+      });
+    } catch (error) {
+      console.error('Registration failed:', error);
+      setErrors((prev) => ({
+        ...prev,
+        email: 'Unable to send verification code. Please try again.',
+      }));
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <KeyboardAvoidingView
-      className={"flex-1 bg-background px-6 pt-36"}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      className={'flex-1 bg-background px-6 pt-36'}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       {/* Back Button */}
       {/* <TouchableOpacity
@@ -72,7 +89,7 @@ const SignUpScreen: React.FC = () => {
         value={email}
         onChangeText={(text) => {
           setEmail(text);
-          if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
+          if (errors.email) setErrors((prev) => ({ ...prev, email: '' }));
         }}
         error={errors.email}
         iconName="Mail"
@@ -86,9 +103,9 @@ const SignUpScreen: React.FC = () => {
           onPress={() => setRememberMe(!rememberMe)}
         >
           {rememberMe ? (
-            <Icon name={"SquareCheck"} size={20} color={"gray"} />
+            <Icon name={'SquareCheck'} size={20} color={'gray'} />
           ) : (
-            <Icon name={"Square"} size={20} color={"gray"} />
+            <Icon name={'Square'} size={20} color={'gray'} />
           )}
         </TouchableOpacity>
         <Text className="font-Regular text-textMuted text-base">
@@ -116,7 +133,7 @@ const SignUpScreen: React.FC = () => {
       <View className="flex-col justify-between gap-4 mb-6">
         <AuthButton
           title="Continue with Google"
-          icon={require("@/assets/icons/google.png")}
+          icon={require('@/assets/icons/google.png')}
           loading={googleLoading}
           onPress={() => {
             setGoogleLoading(true);
@@ -125,7 +142,7 @@ const SignUpScreen: React.FC = () => {
         />
         <AuthButton
           title="Continue with Apple"
-          icon={require("@/assets/icons/apple.png")}
+          icon={require('@/assets/icons/apple.png')}
           loading={appleLoading}
           onPress={() => {
             setAppleLoading(true);
@@ -139,7 +156,7 @@ const SignUpScreen: React.FC = () => {
         <Text className="text-textMuted font-Regular mr-1">
           Already have an account?
         </Text>
-        <TouchableOpacity onPress={() => router.push("/sign-in")}>
+        <TouchableOpacity onPress={() => router.push('/sign-in')}>
           <Text className="font-SemiBold text-text">Sign In</Text>
         </TouchableOpacity>
       </View>
