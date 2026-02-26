@@ -1,9 +1,9 @@
-import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import AuthButton from '@/components/auth/authButton';
+import AuthButton from '@/components/auth/AuthButton';
 import PolicyModal from '@/components/auth/PolicyModal';
 import { privacyText, termsText } from '@/constants/PolicyData';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 
 const GetStarted: React.FC = () => {
   const router = useRouter();

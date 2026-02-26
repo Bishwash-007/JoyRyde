@@ -1,4 +1,4 @@
-import AuthButton from '@/components/auth/authButton';
+import AuthButton from '@/components/auth/AuthButton';
 import CustomButton from '@/components/auth/CustomButton';
 import Icon from '@/components/ui/IconNode';
 import TextInputField from '@/components/ui/TextInputField';
@@ -22,11 +22,10 @@ import {
 const SignInScreen: React.FC = () => {
   const router = useRouter();
 
+  const { login, loading, error } = useAuthStore();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const login = useAuthStore((s) => s.login);
-  const storeLoading = useAuthStore((s) => s.loading);
-  const storeError = useAuthStore((s) => s.error);
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [errors, setErrors] = useState({ email: '', password: '' });
   const [googleLoading, setGoogleLoading] = useState<boolean>(false);
@@ -60,7 +59,7 @@ const SignInScreen: React.FC = () => {
   const rotation = useSharedValue(0);
 
   useEffect(() => {
-    if (storeLoading) {
+    if (loading) {
       rotation.value = withRepeat(
         withTiming(360, { duration: 1000 }),
         -1,
@@ -69,7 +68,7 @@ const SignInScreen: React.FC = () => {
     } else {
       rotation.value = 0;
     }
-  }, [storeLoading, rotation]);
+  }, [loading, rotation]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ rotateZ: `${rotation.value}deg` }],
@@ -105,7 +104,7 @@ const SignInScreen: React.FC = () => {
         }}
         error={errors.email}
         iconName="Mail"
-        loading={storeLoading}
+        loading={loading}
       />
       <TextInputField
         placeholder="Password"
@@ -117,7 +116,7 @@ const SignInScreen: React.FC = () => {
         secure
         error={errors.password}
         iconName="Lock"
-        loading={storeLoading}
+        loading={loading}
       />
 
       {/* Sign Up Prompt */}
@@ -143,14 +142,7 @@ const SignInScreen: React.FC = () => {
       </View>
 
       {/* Sign In Button */}
-      {storeError && (
-        <Text className="text-error text-center mb-2">{storeError}</Text>
-      )}
-      <CustomButton
-        title="Sign In"
-        onPress={handleSignIn}
-        loading={storeLoading}
-      />
+      <CustomButton title="Sign In" onPress={handleSignIn} loading={loading} />
 
       {/* Separator */}
       <View className="flex-row items-center justify-center mb-6">

@@ -1,4 +1,4 @@
-import AuthButton from '@/components/auth/authButton';
+import AuthButton from '@/components/auth/AuthButton';
 import CustomButton from '@/components/auth/CustomButton';
 import PolicyModal from '@/components/auth/PolicyModal';
 import Icon from '@/components/ui/IconNode';

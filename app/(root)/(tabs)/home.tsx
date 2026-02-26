@@ -1,10 +1,11 @@
-// import { AppleMaps, GoogleMaps } from "expo-maps";
+// import { AppleMaps, GoogleMaps } from 'expo-maps';
 import Icon from '@/components/ui/IconNode';
 import LocationPermission from '@/components/ui/LocationPermission';
 import TextInputField from '@/components/ui/TextInputField';
 import { registerUser } from '@/services/auth';
 import axios from 'axios';
 import * as Location from 'expo-location';
+import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
   Platform,
@@ -16,6 +17,7 @@ import {
 } from 'react-native';
 
 const HomeScreen = () => {
+  const router = useRouter();
   const [showPermissionCard, setShowPermissionCard] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLocationPending, setIsLocationPending] = useState(true);
@@ -115,9 +117,9 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 // const MapView = () => {
-//   if (Platform.OS === "ios") {
+//   if (Platform.OS === 'ios') {
 //     return <AppleMaps.View style={{ flex: 1 }} />;
-//   } else if (Platform.OS === "android") {
+//   } else if (Platform.OS === 'android') {
 //     return <GoogleMaps.View style={{ flex: 1 }} />;
 //   } else {
 //     return <Text>Map is not supported on this platform.</Text>;
